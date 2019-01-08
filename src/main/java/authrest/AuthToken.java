@@ -6,13 +6,13 @@ import io.jsonwebtoken.Jwts;
 import java.util.Date;
 import javax.inject.Inject;
 
-public class AutenticacaoToken {
+public class AuthToken {
 
     @Inject
-    AutenticacaoPropriedades ap;
+    AuthProperties ap;
 
     @Inject
-    AutenticacaoDAO adao;
+    AuthDAO adao;
 
     public String buildToken(String subject, String senha) {
         Date dateIssued = new Date();
@@ -32,8 +32,8 @@ public class AutenticacaoToken {
     }
 
     public String getToken(String email, String senha) {
-        AutenticacaoUser u = adao.getSubject(email);
-        if (u == null || !AutenticacaoHash.igual(senha, u.getSalt(), u.getPassword())) {
+        AuthUser u = adao.getSubject(email);
+        if (u == null || !AuthHash.equals(senha, u.getSalt(), u.getPassword())) {
             throw new javax.ws.rs.ForbiddenException("usuario ou senha incorreta");
         }
         return buildToken(email, senha);

@@ -13,7 +13,7 @@ import javax.ws.rs.NameBinding;
 @NameBinding
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Autenticado {
+public @interface Auth {
 
     String[] value() default "";
 }

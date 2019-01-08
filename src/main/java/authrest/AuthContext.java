@@ -7,13 +7,13 @@ import javax.ws.rs.core.SecurityContext;
  *
  * @author pedro
  */
-public class AutenticacaoContext implements SecurityContext {
+public class AuthContext implements SecurityContext {
 
-    private final AutenticacaoUser au;
+    private final AuthUser au;
     private final boolean isSecure;
     private final String authenticationScheme;
 
-    public AutenticacaoContext(AutenticacaoUser u, boolean isSecure, String authenticationScheme) {
+    public AuthContext(AuthUser u, boolean isSecure, String authenticationScheme) {
         this.au = u;
         this.isSecure = isSecure;
         this.authenticationScheme = authenticationScheme;

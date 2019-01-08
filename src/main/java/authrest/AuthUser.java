@@ -8,11 +8,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotEmpty;
-import static authrest.AutenticacaoHash.gerarHash;
-import static authrest.AutenticacaoHash.gerarSaltAleatorio;
+import static authrest.AuthHash.buildHash;
+import static authrest.AuthHash.buildSalt;
 
 @MappedSuperclass
-public class AutenticacaoUser implements Principal {
+public class AuthUser implements Principal {
 
     @Id
     @GeneratedValue
@@ -29,15 +29,15 @@ public class AutenticacaoUser implements Principal {
 
     private String role;
 
-    public AutenticacaoUser() {
+    public AuthUser() {
     }
 
-    public AutenticacaoUser(String name, String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    public AuthUser(String name, String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
         this.setPassword(password);
         this.name = name;
     }
 
-    public AutenticacaoUser(String name, String password, String role) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    public AuthUser(String name, String password, String role) throws NoSuchAlgorithmException, InvalidKeySpecException {
         this.setPassword(password);
         this.name = name;
         this.role = role;
@@ -65,8 +65,8 @@ public class AutenticacaoUser implements Principal {
     }
 
     public void setPassword(String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        this.salt = gerarSaltAleatorio();
-        this.password = gerarHash(password, salt);
+        this.salt = buildSalt();
+        this.password = buildHash(password, salt);
     }
 
     public String getSalt() {

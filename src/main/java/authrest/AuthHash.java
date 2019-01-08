@@ -12,24 +12,24 @@ import javax.crypto.spec.PBEKeySpec;
  *
  * @author pedro
  */
-public class AutenticacaoHash {
+public class AuthHash {
 
-    /**
+    /*
      * converte a senha e o salt para um hash e o compara com outro hash
      */
-    public static boolean igual(String senha, String salt, String hash) {
+    public static boolean equals(String senha, String salt, String hash) {
         try {
-            senha = gerarHash(senha, salt);
+            senha = buildHash(senha, salt);
             return hash.equals(senha);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
             return false;
         }
     }
 
-    /**
+    /*
      * gera o hash a partir da senha e do salt
      */
-    public static String gerarHash(String senha, String salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    public static String buildHash(String senha, String salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
         KeySpec pks = new PBEKeySpec(senha.toCharArray(), Base64.getDecoder().decode(salt), 65536, 128);
         SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
         byte[] hash = skf.generateSecret(pks).getEncoded();
@@ -39,7 +39,7 @@ public class AutenticacaoHash {
     /**
      * gera um salt aleatorio
      */
-    public static String gerarSaltAleatorio() {
+    public static String buildSalt() {
         byte[] salt = new byte[16];
         new SecureRandom().nextBytes(salt);
         return Base64.getEncoder().encodeToString(salt);

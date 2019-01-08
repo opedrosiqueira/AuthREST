@@ -12,16 +12,16 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 
-@Autenticado
+@Auth
 @Provider
 @Priority(Priorities.AUTHENTICATION)
-public class AutenticacaoFiltro implements ContainerRequestFilter {
+public class AuthFilter implements ContainerRequestFilter {
 
     @Inject
-    AutenticacaoToken at;
+    AuthToken at;
 
     @Inject
-    AutenticacaoDAO subjectDAO;
+    AuthDAO subjectDAO;
 
     @Context
     private ResourceInfo ri;
@@ -35,11 +35,11 @@ public class AutenticacaoFiltro implements ContainerRequestFilter {
         }
         token = token.substring(7);
         try {
-            AutenticacaoUser u = subjectDAO.getSubject(at.getSubject(token));
+            AuthUser u = subjectDAO.getSubject(at.getSubject(token));
             boolean isSecure = "https".equalsIgnoreCase(req.getUriInfo().getRequestUri().getScheme());
-            AutenticacaoContext seq = new AutenticacaoContext(u, isSecure, "Bearer");
+            AuthContext seq = new AuthContext(u, isSecure, "Bearer");
             req.setSecurityContext(seq);
-            for (String role : ri.getResourceMethod().getAnnotation(Autenticado.class).value()) {
+            for (String role : ri.getResourceMethod().getAnnotation(Auth.class).value()) {
                 if (seq.isUserInRole(role) || role == null || role.isEmpty()) {
                     return;
                 }

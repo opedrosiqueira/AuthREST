@@ -13,7 +13,7 @@ import javax.crypto.spec.SecretKeySpec;
 import javax.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
-public class AutenticacaoPropriedades {
+public class AuthProperties {
 
     private String issuer;
     private long expiresAfter;
@@ -33,9 +33,9 @@ public class AutenticacaoPropriedades {
 //          this.key = Keys.hmacShaKeyFor(Base64.getDecoder().decode(ap.getSecret())); //alternativa usando biblioteca jjwt
 
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(AutenticacaoPropriedades.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AuthProperties.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(AutenticacaoPropriedades.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AuthProperties.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
