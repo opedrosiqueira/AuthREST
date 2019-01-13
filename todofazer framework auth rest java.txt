@@ -1,4 +1,3 @@
 * documentar codigo
 * mensagens devem ir no arquivo de configuracao para possivel traducao
 * tratar todas as excecoes (ter um lugar centralizado do framework que captura todas as excecoes)
-* normalizar todos os nomes

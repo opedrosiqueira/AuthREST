@@ -36,6 +36,10 @@ public class AuthFilter implements ContainerRequestFilter {
         token = token.substring(7);
         try {
             AuthUser u = subjectDAO.getSubject(at.getSubject(token));
+            if (u == null) {
+                req.abortWith(Response.status(Response.Status.FORBIDDEN).entity("usuario ou senha incorreta").build());
+                return;
+            }
             boolean isSecure = "https".equalsIgnoreCase(req.getUriInfo().getRequestUri().getScheme());
             AuthContext seq = new AuthContext(u, isSecure, "Bearer");
             req.setSecurityContext(seq);
@@ -47,6 +51,8 @@ public class AuthFilter implements ContainerRequestFilter {
             req.abortWith(Response.status(Response.Status.FORBIDDEN).entity("Sem permissão").build());
         } catch (JwtException e) {
             req.abortWith(Response.status(Response.Status.FORBIDDEN).entity(e.getMessage()).build());
+        } catch (Exception e) {
+            req.abortWith(Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build());
         }
     }
 }
